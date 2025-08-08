@@ -14,7 +14,7 @@ pub enum Commands {
         /// The name of the new VP project
         name: String,
     },
-    /// Compile the VP project to Wasm
+    /// Compile the VP project to Wasm in the current directory
     Build,
     /// Test a compiled VP against a JSON intent file (coming soon)
     Test,
@@ -28,7 +28,7 @@ pub fn dispatch(command: Commands) -> Result<()> {
             println!("   Run 'cd {}' to get started.", name);
         }
         Commands::Build => {
-            println!("{}", "Build command coming soon!".yellow());
+            build::run()?;
         }
         Commands::Test => {
             println!("{}", "Test command coming soon!".yellow());

@@ -1,6 +1,7 @@
 use clap::Subcommand;
 use anyhow::Result;
 use colored::*;
+use std::path::PathBuf;
 
 // Import the modules for each command
 pub mod new;
@@ -16,8 +17,16 @@ pub enum Commands {
     },
     /// Compile the VP project to Wasm in the current directory
     Build,
-    /// Test a compiled VP against a JSON intent file (coming soon)
-    Test,
+    /// Test a compiled VP against a JSON intent file
+    Test {
+        /// Path to the compiled .wasm VP file
+        #[arg(long)]
+        vp: PathBuf,
+
+        /// Path to the JSON intent file to test against
+        #[arg(long)]
+        intent: PathBuf,
+    },
 }
 
 pub fn dispatch(command: Commands) -> Result<()> {
@@ -30,8 +39,8 @@ pub fn dispatch(command: Commands) -> Result<()> {
         Commands::Build => {
             build::run()?;
         }
-        Commands::Test => {
-            println!("{}", "Test command coming soon!".yellow());
+        Commands::Test { vp, intent } => {
+            test::run(vp, intent)?;
         }
     }
     Ok(())

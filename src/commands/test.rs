@@ -29,12 +29,12 @@ pub fn run(vp_path: PathBuf, intent_path: PathBuf) -> Result<()> {
         .get_memory(&mut store, "memory")
         .context("Failed to find 'memory' export")?;
     let validate_intent_func = instance
-        .get_typed_func::<(i32, i32), i32, _>(&mut store, "validate_intent")
+        .get_typed_func::<(i32, i32), i32>(&mut store, "validate_intent")
         .context("Failed to find 'validate_intent' function export")?;
 
     // This is a helper function to allocate memory inside the Wasm module
     let wasm_alloc = instance
-        .get_typed_func::<i32, i32, _>(&mut store, "wasm_alloc")
+        .get_typed_func::<i32, i32>(&mut store, "wasm_alloc")
         .context("Failed to find 'wasm_alloc' function export. Ensure your VP template has it.")?;
         
     // 6. Allocate memory in Wasm for the intent data and get the pointer

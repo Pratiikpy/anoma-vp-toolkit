@@ -2,23 +2,30 @@
 
 A CLI toolkit to generate, compile, and test Validity Predicates (VPs) for the Anoma network, making development faster and easier.
 
-This tool helps bootstrap new VP projects, abstracting away the boilerplate and letting you focus on the core logic of your state transition rules.
+This tool provides a complete `new -> build -> test` workflow, abstracting away the boilerplate and letting you focus on the core logic of your state transition rules.
 
 ## Features
 
-- **`vp-toolkit new`**: Generate a new VP project from a ready-made Rust template.
-- **`vp-toolkit build`**: Compile your VP to the required `wasm32-unknown-unknown` target.
-- **`vp-toolkit test`**: Test your compiled Wasm VP against local JSON intent files for rapid, offline development.
+- **`vp-toolkit new <PROJECT_NAME>`**: Generates a new VP project from a ready-made Rust template.
+- **`vp-toolkit build`**: Compiles your VP to the required `wasm32-unknown-unknown` target.
+- **`vp-toolkit test`**: Executes your compiled Wasm VP in a local runtime against a JSON intent file for rapid, offline development.
 
 ## Installation
 
+First, ensure you have the Rust toolchain and the Wasm target installed:
 ```bash
-# Installation instructions will be added here once the project is published.
+rustup target add wasm32-unknown-unknown
+```
+
+Then, install the toolkit directly from this repository:
+
+```bash
+cargo install --git https://github.com/Pratiikpy/anoma-opensource.git
 ```
 
 ## Usage
 
-### 1. Create a new Validity Predicate
+### 1. Create a New Validity Predicate
 
 This will create a new directory with a boilerplate Rust project, ready for your custom logic.
 
@@ -26,35 +33,33 @@ This will create a new directory with a boilerplate Rust project, ready for your
 anoma-vp-toolkit new my-first-vp
 ```
 
-This creates the following structure:
-
-```
-my-first-vp/
-├── .gitignore
-├── Cargo.toml
-└── src/
-    └── lib.rs
-```
-
-### 2. Add Your Logic
+### 2. Add Your Logic & Create a Test Intent
 
 Navigate into the new directory (`cd my-first-vp`) and open `src/lib.rs` to implement your validation rules.
 
-### 3. Build and Test
+Then, create a test intent file. For example, create `tests/valid_intent.json`:
 
-Once implemented, you can easily compile and test your VP:
+```json
+{
+  "source": "acc1...",
+  "target": "acc2...",
+  "token": "NAM",
+  "amount": 100
+}
+```
+
+### 3. Build and Test Your VP
+
+From within your `my-first-vp` directory, run the following commands:
 
 ```bash
-# Navigate into your VP's directory
-cd my-first-vp
-
-# Compile it to Wasm
+# Compile your VP to Wasm
 anoma-vp-toolkit build
 
-# Test it against an intent
+# Test it against your intent file
 anoma-vp-toolkit test --vp ./target/wasm32-unknown-unknown/release/my_first_vp.wasm --intent ./tests/valid_intent.json
 ```
 
 ## Contribution
 
-This is a community tool and contributions are welcome! 
+This is a community tool and contributions are welcome! Feel free to open an issue or submit a pull request. 

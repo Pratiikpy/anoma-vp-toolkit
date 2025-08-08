@@ -1,0 +1,14 @@
+[package]
+name = "anoma-vp-toolkit"
+version = "0.1.0"
+edition = "2021"
+description = "A CLI toolkit to generate, compile, and test Validity Predicates (VPs) for the Anoma network."
+license = "MIT"
+
+[dependencies]
+clap = { version = "4.4.6", features = ["derive"] }
+anyhow = "1.0.75"
+fs_extra = "1.3.0"
+colored = "2.0.0"
+
+# We will add wasmtime later for the 'test' command. 

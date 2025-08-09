@@ -48,7 +48,14 @@ pub fn run(vp_path: PathBuf, intent_path: PathBuf) -> Result<()> {
     // 8. Call the `validate_intent` function
     let result_code = validate_intent_func.call(&mut store, (intent_ptr, intent_len))?;
 
-    // 9. Interpret and print the result
+    // 9. Deallocate the memory in the Wasm instance
+    let wasm_dealloc = instance
+        .get_typed_func::<(i32, i32), ()>(&mut store, "wasm_dealloc")
+        .context("Failed to find 'wasm_dealloc' function export. Ensure your VP template has it.")?;
+
+    wasm_dealloc.call(&mut store, (intent_ptr, intent_len))?;
+
+    // 10. Interpret and print the result
     let is_valid = result_code != 0;
 
     if is_valid {
